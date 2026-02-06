@@ -1,0 +1,6 @@
+com/hotel/backoffice/ReservationController.class
+com/hotel/backoffice/AppInitializer.class
+com/hotel/backoffice/ReservationDao.class
+com/hotel/backoffice/ReservationApiController.class
+com/hotel/backoffice/Db.class
+com/hotel/backoffice/model/Reservation.class
