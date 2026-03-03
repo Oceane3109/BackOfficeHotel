@@ -9,6 +9,16 @@
 		<servlet-class>mg.framework.FrontServlet</servlet-class>
 	</servlet>
 
+	<filter>
+		<filter-name>NoCacheFilter</filter-name>
+		<filter-class>com.hotel.backoffice.NoCacheFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>NoCacheFilter</filter-name>
+		<url-pattern>/css/*</url-pattern>
+	</filter-mapping>
+
 	<servlet-mapping>
 		<servlet-name>FrontServlet</servlet-name>
 		<url-pattern>/</url-pattern>
