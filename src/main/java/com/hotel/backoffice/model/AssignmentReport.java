@@ -8,11 +8,23 @@ public class AssignmentReport {
     private LocalDate date;
     private double vitesseMoyenneKmh;
     private int tempsAttenteMaxMinutes;
+    private boolean bufferDepartActif;
+    private int bufferDepartMinutes;
     private List<TransferAssignment> assigned = new ArrayList<>();
     private List<TransferAssignment> unassigned = new ArrayList<>();
 
     public int getTotalReservations() {
         return assigned.size() + unassigned.size();
+    }
+
+    public int getTotalTrajets() {
+        java.util.Set<Integer> trajetIds = new java.util.HashSet<>();
+        for (TransferAssignment assignment : assigned) {
+            if (assignment.getTrajetId() != null) {
+                trajetIds.add(assignment.getTrajetId());
+            }
+        }
+        return trajetIds.size();
     }
 
     public LocalDate getDate() {
@@ -37,6 +49,22 @@ public class AssignmentReport {
 
     public void setTempsAttenteMaxMinutes(int tempsAttenteMaxMinutes) {
         this.tempsAttenteMaxMinutes = tempsAttenteMaxMinutes;
+    }
+
+    public boolean isBufferDepartActif() {
+        return bufferDepartActif;
+    }
+
+    public void setBufferDepartActif(boolean bufferDepartActif) {
+        this.bufferDepartActif = bufferDepartActif;
+    }
+
+    public int getBufferDepartMinutes() {
+        return bufferDepartMinutes;
+    }
+
+    public void setBufferDepartMinutes(int bufferDepartMinutes) {
+        this.bufferDepartMinutes = bufferDepartMinutes;
     }
 
     public List<TransferAssignment> getAssigned() {
