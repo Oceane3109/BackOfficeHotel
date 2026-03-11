@@ -21,6 +21,11 @@ public class TransferAssignment {
     private String vehiculeReference;
     private Integer vehiculeNbPlace;
     private String vehiculeTypeCarburant;
+    private LocalDateTime heureDisponibleVehicule;
+    private Integer trajetId;
+    private Integer ordreDepot;
+    private Integer passagersTrajet;
+    private Integer nbReservationsTrajet;
     private String motif;
 
     public boolean isAssigned() {
@@ -145,6 +150,46 @@ public class TransferAssignment {
 
     public void setVehiculeTypeCarburant(String vehiculeTypeCarburant) {
         this.vehiculeTypeCarburant = vehiculeTypeCarburant;
+    }
+
+    public LocalDateTime getHeureDisponibleVehicule() {
+        return heureDisponibleVehicule;
+    }
+
+    public void setHeureDisponibleVehicule(LocalDateTime heureDisponibleVehicule) {
+        this.heureDisponibleVehicule = heureDisponibleVehicule;
+    }
+
+    public Integer getTrajetId() {
+        return trajetId;
+    }
+
+    public void setTrajetId(Integer trajetId) {
+        this.trajetId = trajetId;
+    }
+
+    public Integer getOrdreDepot() {
+        return ordreDepot;
+    }
+
+    public void setOrdreDepot(Integer ordreDepot) {
+        this.ordreDepot = ordreDepot;
+    }
+
+    public Integer getPassagersTrajet() {
+        return passagersTrajet;
+    }
+
+    public void setPassagersTrajet(Integer passagersTrajet) {
+        this.passagersTrajet = passagersTrajet;
+    }
+
+    public Integer getNbReservationsTrajet() {
+        return nbReservationsTrajet;
+    }
+
+    public void setNbReservationsTrajet(Integer nbReservationsTrajet) {
+        this.nbReservationsTrajet = nbReservationsTrajet;
     }
 
     public String getMotif() {
