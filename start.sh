@@ -8,7 +8,7 @@ export DB_USER="root"
 export DB_PASSWORD=""
 
 # 2. Chemin Tomcat (modifiable via variable d'environnement TOMCAT_HOME)
-TOMCAT_HOME="${TOMCAT_HOME:-/Users/oceanechristodoulou/Desktop/tout/S3/apache-tomcat-10.1.28}"
+TOMCAT_HOME="${TOMCAT_HOME:-/Users/oceanechristodoulou/Desktop/S3/apache-tomcat-10.1.28}"
 TOMCAT_WEBAPPS="$TOMCAT_HOME/webapps"
 
 if [ ! -f "$TOMCAT_HOME/bin/startup.sh" ]; then
@@ -24,7 +24,7 @@ mvn clean package
 
 # 4. Copier le WAR dans Tomcat
 echo "🚀 Déploiement vers Tomcat..."
-cp target/backofficehotel.war "$TOMCAT_WEBAPPS/"
+cp target/backofficehotelSprint5.war "$TOMCAT_WEBAPPS/"
 
 echo "✅ WAR déployé. Tomcat va le déployer automatiquement."
-echo "📍 URL: http://localhost:8080/backofficehotel"
+echo "📍 URL: http://localhost:8080/backofficehotelSprint5"
