@@ -14,7 +14,10 @@ public class AssignmentReport {
     private List<TransferAssignment> unassigned = new ArrayList<>();
 
     public int getTotalReservations() {
-        return assigned.size() + unassigned.size();
+        Set<Integer> reservationIds = new HashSet<>();
+        collectReservationIds(assigned, reservationIds);
+        collectReservationIds(unassigned, reservationIds);
+        return reservationIds.size();
     }
 
     public int getTotalTrajets() {
@@ -65,5 +68,25 @@ public class AssignmentReport {
 
     public void setWaitTimeMinutes(int waitTimeMinutes) {
         this.waitTimeMinutes = waitTimeMinutes;
+    }
+
+    public int getAssignedReservationCount() {
+        return countDistinctReservations(assigned);
+    }
+
+    public int getUnassignedReservationCount() {
+        return countDistinctReservations(unassigned);
+    }
+
+    private int countDistinctReservations(List<TransferAssignment> assignments) {
+        Set<Integer> reservationIds = new HashSet<>();
+        collectReservationIds(assignments, reservationIds);
+        return reservationIds.size();
+    }
+
+    private void collectReservationIds(List<TransferAssignment> assignments, Set<Integer> reservationIds) {
+        for (TransferAssignment assignment : assignments) {
+            reservationIds.add(assignment.getReservationId());
+        }
     }
 }

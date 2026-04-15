@@ -6,6 +6,7 @@ public class TransferAssignment {
     private int reservationId;
     private String idClient;
     private int nbPassager;
+    private Integer nbPassagerReservation;
 
     private int idHotel;
     private String hotelNom;
@@ -21,6 +22,7 @@ public class TransferAssignment {
     private String vehiculeReference;
     private Integer vehiculeNbPlace;
     private String vehiculeTypeCarburant;
+    private Integer vehiculeTripCount;
     private LocalDateTime heureDisponibleVehicule;
     private Integer trajetId;
     private Integer ordreDepot;
@@ -55,6 +57,14 @@ public class TransferAssignment {
 
     public void setNbPassager(int nbPassager) {
         this.nbPassager = nbPassager;
+    }
+
+    public Integer getNbPassagerReservation() {
+        return nbPassagerReservation;
+    }
+
+    public void setNbPassagerReservation(Integer nbPassagerReservation) {
+        this.nbPassagerReservation = nbPassagerReservation;
     }
 
     public int getIdHotel() {
@@ -153,6 +163,14 @@ public class TransferAssignment {
         this.vehiculeTypeCarburant = vehiculeTypeCarburant;
     }
 
+    public Integer getVehiculeTripCount() {
+        return vehiculeTripCount;
+    }
+
+    public void setVehiculeTripCount(Integer vehiculeTripCount) {
+        this.vehiculeTripCount = vehiculeTripCount;
+    }
+
     public LocalDateTime getHeureDisponibleVehicule() {
         return heureDisponibleVehicule;
     }
@@ -207,5 +225,11 @@ public class TransferAssignment {
 
     public void setKmParcourusTrajet(Double kmParcourusTrajet) {
         this.kmParcourusTrajet = kmParcourusTrajet;
+    }
+
+    public boolean isFractionnee() {
+        return nbPassagerReservation != null
+            && nbPassagerReservation > 0
+            && nbPassager < nbPassagerReservation;
     }
 }
