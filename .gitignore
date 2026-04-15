@@ -1,0 +1,20 @@
+# Maven
+target/
+!target/.gitkeep
+
+# IDE
+.DS_Store
+.idea/
+*.iml
+.vscode/
+
+# Compiled files
+*.class
+*.jar
+*.war
+
+# Logs
+*.log
+
+# OS
+Thumbs.db
