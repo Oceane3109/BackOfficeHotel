@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="com.hotel.backoffice.model.Vehicule" %>
+<%@ page import="java.time.LocalTime" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,10 @@
        boolean editing = vehicule != null;
        String typeValue = editing && vehicule.getTypeCarburant() != null ? vehicule.getTypeCarburant().trim() : "";
        String typeLower = typeValue.toLowerCase();
+       LocalTime availabilityTime = editing && vehicule.getHeureDisponibiliteDefaut() != null
+           ? vehicule.getHeureDisponibiliteDefaut()
+           : LocalTime.MIDNIGHT;
+       String availabilityValue = String.format("%02d:%02d", availabilityTime.getHour(), availabilityTime.getMinute());
     %>
 
     <header class="app-header">
@@ -81,6 +86,18 @@
                             <option value="ES" <%= ("es".equals(typeLower) || "électrique".equals(typeLower) || "electrique".equals(typeLower)) ? "selected" : "" %>>ES / Électrique</option>
                         </select>
                         <div class="field-hint">Conserver les valeurs autorisées par l'ENUM SQL.</div>
+                    </div>
+
+                    <div class="form-group form-group--full">
+                        <label for="heure_disponibilite_defaut">Disponibilité par défaut</label>
+                        <input
+                            type="time"
+                            id="heure_disponibilite_defaut"
+                            name="heure_disponibilite_defaut"
+                            value="<%= availabilityValue %>"
+                            required
+                            class="form-control" />
+                        <div class="field-hint">Heure quotidienne à partir de laquelle le véhicule peut recevoir son premier trajet.</div>
                     </div>
                 </div>
 

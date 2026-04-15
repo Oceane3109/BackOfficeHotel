@@ -9,6 +9,7 @@ import mg.framework.annotations.PostMapping;
 import mg.framework.annotations.RequestParam;
 
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.List;
 
 @Controlleur
@@ -36,11 +37,12 @@ public class VehiculeApiController {
             @RequestParam("token") String token,
             @RequestParam("reference") String reference,
             @RequestParam("nb_place") int nbPlace,
-            @RequestParam("type_carburant") String typeCarburant) throws SQLException {
+            @RequestParam("type_carburant") String typeCarburant,
+            @RequestParam("heure_disponibilite_defaut") String heureDisponibiliteDefautValue) throws SQLException {
         if (token == null || token.isEmpty() || !tokenDao.isTokenValid(token)) {
             return new ApiResponse<>("error", 401, "Token invalide ou expiré");
         }
-        vehiculeDao.insert(reference, nbPlace, typeCarburant);
+        vehiculeDao.insert(reference, nbPlace, typeCarburant, parseAvailabilityTime(heureDisponibiliteDefautValue));
         return new ApiResponse<>("success", 201, "Véhicule créé");
     }
 
@@ -51,11 +53,12 @@ public class VehiculeApiController {
             @RequestParam("id") int id,
             @RequestParam("reference") String reference,
             @RequestParam("nb_place") int nbPlace,
-            @RequestParam("type_carburant") String typeCarburant) throws SQLException {
+            @RequestParam("type_carburant") String typeCarburant,
+            @RequestParam("heure_disponibilite_defaut") String heureDisponibiliteDefautValue) throws SQLException {
         if (token == null || token.isEmpty() || !tokenDao.isTokenValid(token)) {
             return new ApiResponse<>("error", 401, "Token invalide ou expiré");
         }
-        vehiculeDao.update(id, reference, nbPlace, typeCarburant);
+        vehiculeDao.update(id, reference, nbPlace, typeCarburant, parseAvailabilityTime(heureDisponibiliteDefautValue));
         return new ApiResponse<>("success", 200, "Véhicule mis à jour");
     }
 
@@ -69,5 +72,12 @@ public class VehiculeApiController {
         }
         vehiculeDao.delete(id);
         return new ApiResponse<>("success", 200, "Véhicule supprimé");
+    }
+
+    private LocalTime parseAvailabilityTime(String rawValue) {
+        if (rawValue == null || rawValue.trim().isEmpty()) {
+            return LocalTime.MIDNIGHT;
+        }
+        return LocalTime.parse(rawValue.trim());
     }
 }

@@ -3,25 +3,27 @@ package com.hotel.backoffice;
 import com.hotel.backoffice.model.Vehicule;
 
 import java.sql.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VehiculeDao {
     private static final String INSERT_SQL =
-        "INSERT INTO vehicule (reference, nb_place, type_carburant) VALUES (?, ?, ?)";
+        "INSERT INTO vehicule (reference, nb_place, type_carburant, heure_disponibilite_defaut) VALUES (?, ?, ?, ?)";
 
     private static final String UPDATE_SQL =
-        "UPDATE vehicule SET reference = ?, nb_place = ?, type_carburant = ? WHERE id = ?";
+        "UPDATE vehicule SET reference = ?, nb_place = ?, type_carburant = ?, heure_disponibilite_defaut = ? WHERE id = ?";
 
     private static final String DELETE_SQL =
         "DELETE FROM vehicule WHERE id = ?";
 
-    public void insert(String reference, int nbPlace, String typeCarburant) throws SQLException {
+    public void insert(String reference, int nbPlace, String typeCarburant, LocalTime heureDisponibiliteDefaut) throws SQLException {
         try (Connection conn = Db.getConnection();
              PreparedStatement ps = conn.prepareStatement(INSERT_SQL)) {
             ps.setString(1, reference);
             ps.setInt(2, nbPlace);
             ps.setString(3, typeCarburant);
+            ps.setTime(4, Time.valueOf(resolveAvailabilityTime(heureDisponibiliteDefaut)));
             ps.executeUpdate();
         }
     }
@@ -47,13 +49,14 @@ public class VehiculeDao {
         }
     }
 
-    public void update(int id, String reference, int nbPlace, String typeCarburant) throws SQLException {
+    public void update(int id, String reference, int nbPlace, String typeCarburant, LocalTime heureDisponibiliteDefaut) throws SQLException {
         try (Connection conn = Db.getConnection();
              PreparedStatement ps = conn.prepareStatement(UPDATE_SQL)) {
             ps.setString(1, reference);
             ps.setInt(2, nbPlace);
             ps.setString(3, typeCarburant);
-            ps.setInt(4, id);
+            ps.setTime(4, Time.valueOf(resolveAvailabilityTime(heureDisponibiliteDefaut)));
+            ps.setInt(5, id);
             ps.executeUpdate();
         }
     }
@@ -80,6 +83,12 @@ public class VehiculeDao {
         v.setReference(rs.getString("reference"));
         v.setNbPlace(rs.getInt("nb_place"));
         v.setTypeCarburant(rs.getString("type_carburant"));
+        Time availabilityTime = rs.getTime("heure_disponibilite_defaut");
+        v.setHeureDisponibiliteDefaut(availabilityTime != null ? availabilityTime.toLocalTime() : LocalTime.MIDNIGHT);
         return v;
+    }
+
+    private LocalTime resolveAvailabilityTime(LocalTime heureDisponibiliteDefaut) {
+        return heureDisponibiliteDefaut != null ? heureDisponibiliteDefaut : LocalTime.MIDNIGHT;
     }
 }

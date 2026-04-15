@@ -46,9 +46,9 @@
         %>
 
         <section class="page-head">
-            <div class="page-eyebrow">Sprint 5 - Regroupement (fenêtre d'attente)</div>
+            <div class="page-eyebrow">Sprint 7 - Fractionnement des reservations</div>
             <h1>Planification des transferts aéroport</h1>
-            <p class="page-subtitle">Pilotage journalier des affectations véhicules avec regroupement des réservations par trajet.</p>
+            <p class="page-subtitle">Pilotage journalier des affectations véhicules avec regroupement et division possible d'une même réservation.</p>
         </section>
 
         <% if (request.getAttribute("error") != null) { %>
@@ -139,13 +139,19 @@
                             <td>
                                 <span class="cell-main">#<%= a.getReservationId() %></span>
                                 <span class="cell-sub">Client <%= a.getIdClient() %></span>
+                                <% if (a.isFractionnee()) { %>
+                                    <span class="cell-sub">Fractionnée: <%= a.getNbPassager() %> / <%= a.getNbPassagerReservation() %> passagers</span>
+                                <% } %>
                             </td>
                             <td>
                                 <span class="badge badge--info">T<%= a.getTrajetId() != null ? a.getTrajetId() : "-" %></span>
-                                <span class="cell-sub">dépôt <%= a.getOrdreDepot() != null ? a.getOrdreDepot() : "-" %> / <%= a.getNbReservationsTrajet() != null ? a.getNbReservationsTrajet() : "-" %></span>
+                                <span class="cell-sub">client <%= a.getOrdreDepot() != null ? a.getOrdreDepot() : "-" %> / <%= a.getNbReservationsTrajet() != null ? a.getNbReservationsTrajet() : "-" %></span>
                             </td>
                             <td>
                                 <span class="badge badge--accent"><%= a.getNbPassager() %> pax</span>
+                                <% if (a.isFractionnee()) { %>
+                                    <span class="cell-sub">Réservation totale: <%= a.getNbPassagerReservation() %> pax</span>
+                                <% } %>
                             </td>
                             <td>
                                 <span class="cell-main"><%= a.getAeroportCode() != null ? a.getAeroportCode() : "-" %> → <%= a.getHotelNom() != null ? a.getHotelNom() : ("Hotel #" + a.getIdHotel()) %></span>
@@ -165,6 +171,7 @@
                             <td>
                                 <span class="badge badge--success">#<%= a.getVehiculeId() %> <%= a.getVehiculeReference() %></span>
                                 <span class="cell-sub"><%= a.getVehiculeNbPlace() %> places - <%= a.getVehiculeTypeCarburant() %></span>
+                                <span class="cell-sub">Trip count du jour: <%= a.getVehiculeTripCount() != null ? a.getVehiculeTripCount() : "-" %></span>
                             </td>
                         </tr>
                     <%     }
@@ -207,8 +214,16 @@
                             <td>
                                 <span class="cell-main">#<%= a.getReservationId() %></span>
                                 <span class="cell-sub">Client <%= a.getIdClient() %></span>
+                                <% if (a.isFractionnee()) { %>
+                                    <span class="cell-sub">Reste à placer: <%= a.getNbPassager() %> / <%= a.getNbPassagerReservation() %> passagers</span>
+                                <% } %>
                             </td>
-                            <td><span class="badge badge--warning"><%= a.getNbPassager() %> pax</span></td>
+                            <td>
+                                <span class="badge badge--warning"><%= a.getNbPassager() %> pax</span>
+                                <% if (a.isFractionnee()) { %>
+                                    <span class="cell-sub">Réservation totale: <%= a.getNbPassagerReservation() %> pax</span>
+                                <% } %>
+                            </td>
                             <td>
                                 <span class="cell-main"><%= a.getHotelNom() != null ? a.getHotelNom() : ("Hotel #" + a.getIdHotel()) %></span>
                                 <span class="cell-sub"><%= a.getHotelCode() != null ? a.getHotelCode() : "-" %></span>

@@ -53,8 +53,8 @@ public class ReservationController {
             mv.addAttribute("waitTimeMinutes", report.getWaitTimeMinutes());
             mv.addAttribute("totalReservations", report.getTotalReservations());
             mv.addAttribute("totalTrajets", report.getTotalTrajets());
-            mv.addAttribute("assignedCount", report.getAssigned().size());
-            mv.addAttribute("unassignedCount", report.getUnassigned().size());
+            mv.addAttribute("assignedCount", report.getAssignedReservationCount());
+            mv.addAttribute("unassignedCount", report.getUnassignedReservationCount());
             mv.addAttribute("assignations", report.getAssigned());
             mv.addAttribute("nonAssignees", report.getUnassigned());
         } catch (Exception e) {

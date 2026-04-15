@@ -7,6 +7,8 @@ import mg.framework.annotations.RequestParam;
 import mg.framework.model.ModelView;
 
 import java.sql.SQLException;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import com.hotel.backoffice.model.Vehicule;
@@ -54,28 +56,26 @@ public class VehiculeController {
             @RequestParam("id") String id,
             @RequestParam("reference") String reference,
             @RequestParam("nb_place") String nbPlace,
-            @RequestParam("type_carburant") String typeCarburant
+            @RequestParam("type_carburant") String typeCarburant,
+            @RequestParam("heure_disponibilite_defaut") String heureDisponibiliteDefautValue
     ) {
         ModelView mv = new ModelView("/WEB-INF/jsp/vehicules.jsp");
         try {
             int nb = Integer.parseInt(nbPlace);
-            Vehicule vehicule = new Vehicule();
-            vehicule.setReference(reference);
-            vehicule.setNbPlace(nb);
-            vehicule.setTypeCarburant(typeCarburant);
+            LocalTime heureDisponibiliteDefaut = parseAvailabilityTime(heureDisponibiliteDefautValue);
 
             if (id != null && !id.isEmpty()) {
                 // Update
-                vehiculeDao.update(Integer.parseInt(id), reference, nb, typeCarburant);
+                vehiculeDao.update(Integer.parseInt(id), reference, nb, typeCarburant, heureDisponibiliteDefaut);
                 mv.addAttribute("success", "Véhicule modifié");
             } else {
                 // Insert
-                vehiculeDao.insert(reference, nb, typeCarburant);
+                vehiculeDao.insert(reference, nb, typeCarburant, heureDisponibiliteDefaut);
                 mv.addAttribute("success", "Véhicule ajouté");
             }
             List<Vehicule> vehicules = vehiculeDao.findAll();
             mv.addAttribute("vehicules", vehicules);
-        } catch (NumberFormatException | SQLException e) {
+        } catch (NumberFormatException | DateTimeParseException | SQLException e) {
             mv.addAttribute("error", "Erreur lors de l'enregistrement");
             try {
                 List<Vehicule> vehicules = vehiculeDao.findAll();
@@ -106,5 +106,12 @@ public class VehiculeController {
             }
         }
         return mv;
+    }
+
+    private LocalTime parseAvailabilityTime(String rawValue) {
+        if (rawValue == null || rawValue.trim().isEmpty()) {
+            return LocalTime.MIDNIGHT;
+        }
+        return LocalTime.parse(rawValue.trim());
     }
 }

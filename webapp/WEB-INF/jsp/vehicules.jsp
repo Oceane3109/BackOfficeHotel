@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.time.LocalTime" %>
 <%@ page import="com.hotel.backoffice.model.Vehicule" %>
 <!DOCTYPE html>
 <html>
@@ -102,6 +103,7 @@
                             <th>Référence</th>
                             <th>Capacité</th>
                             <th>Carburant</th>
+                            <th>Disponibilité défaut</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -128,6 +130,9 @@
                                } else {
                                    badgeClass = "badge--danger";
                                }
+                               LocalTime availabilityTime = v.getHeureDisponibiliteDefaut() != null
+                                   ? v.getHeureDisponibiliteDefaut()
+                                   : LocalTime.MIDNIGHT;
                     %>
                         <tr>
                             <td><span class="cell-main">#<%= v.getId() %></span></td>
@@ -138,6 +143,9 @@
                                 <span class="badge badge--accent"><%= v.getNbPlace() %> places</span>
                             </td>
                             <td><span class="badge <%= badgeClass %>"><%= typeLabel %></span></td>
+                            <td>
+                                <span class="badge badge--info"><%= String.format("%02d:%02d", availabilityTime.getHour(), availabilityTime.getMinute()) %></span>
+                            </td>
                             <td>
                                 <div class="actions">
                                     <a href="${pageContext.request.contextPath}/vehicules/edit?id=<%= v.getId() %>" class="btn btn-secondary">Modifier</a>
@@ -151,7 +159,7 @@
                     <%     }
                        } else { %>
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                 <div class="empty-message">
                                     <span class="empty-icon">-</span>
                                     <div class="empty-title">Aucun véhicule enregistré</div>

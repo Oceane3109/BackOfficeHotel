@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.hotel</groupId>
-  <artifactId>backofficehotelSprint5</artifactId>
+  <artifactId>backoffice8</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <build>
-    <finalName>backofficehotelSprint5</finalName>
+    <finalName>backoffice8</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
@@ -15,10 +15,10 @@
           <warSourceDirectory>webapp</warSourceDirectory>
           <webResources>
             <resource>
-              <directory>lib</directory>
+              <directory>${project.basedir}/lib</directory>
               <targetPath>WEB-INF/lib</targetPath>
               <includes>
-                <include>*.jar</include>
+                <include>framework-java-1.0.0.jar</include>
               </includes>
             </resource>
           </webResources>
